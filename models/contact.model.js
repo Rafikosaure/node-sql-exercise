@@ -1,26 +1,26 @@
-export default (connection, DataTypes) => {
+// Lors de la creation de la base de donnée dans PhpMyAdmin, bien penser a choisir UTF8mb4 pour ne pas avoir de soucis avec les emojis 😊😊😊😊😊😊😊
+export default (connection, DataType) => {
     connection.define(
         'Contact',
         {
             firstname: {
-                type: DataTypes.STRING,
+                type: DataType.STRING,
                 allowNull: false
             },
             lastname: {
-                type: DataTypes.STRING,
+                type: DataType.STRING,
                 allowNull: false
             },
             email: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true
+                type: DataType.STRING,
+                allowNull: false
             },
             phonenumber: {
-                type: DataTypes.STRING,
+                type: DataType.STRING,
                 allowNull: false
             },
             message: {
-                type: DataTypes.STRING,
+                type: DataType.TEXT,
                 allowNull: false
             }
         },

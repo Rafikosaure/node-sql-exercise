@@ -1,12 +1,12 @@
 import express from 'express'
-import { env } from './config.js'
+import env from './configuration/env.js';
 import cors from 'cors'
 
 // Connexion MySQL
 import './models/index.js'
 
 // ROUTES
-import routerContact from './routes/contact.js'
+import routerContact from './routes/contact.route.js'
 
 const app = express()
 

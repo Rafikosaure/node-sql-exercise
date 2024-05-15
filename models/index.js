@@ -1,47 +1,34 @@
 import { Sequelize } from "sequelize";
 import contactModel from "./contact.model.js"
+import env from "../configuration/env.js";
 
 // Nouvelle connexion à la DB
 const connection = new Sequelize(
-    'infos_contacts', // Nom de la base de donnée
-    'root', // identifiant Mysql
-    '', // Mot de passe Mysql
+    env.DATABASE_NAME, // Nom de la DB
+    env.DATABASE_USER, // Identifiant DB
+    env.DATABASE_PASSWORD, // Password DB
     {
-        host: 'localhost', // URL de mySQL
-        dialect: 'mysql'
+        host: env.DATABASE_URI,// URL de la DB
+        dialect: env.DATABASE_TYPE // Type de DB
     }
 );
 
 try {
     await connection.authenticate();
-    console.log('Connection has been established successfully.');
+    console.log("Connexion à la BDD OK");
 } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.error("Probleme lors de la connexion à la BDD", error);
 }
 
+// J'appel mon model en lui passant en params :
+// 1 : la connexion à la DB
+// 2 : La classe Sequelize dans laquelle je vais retrouver mes DataTypes
 contactModel(connection, Sequelize);
 
-const { Contact } = connection.models;
+const { Contact } = connection.models; // Dans connection.models, on retrouve sous forme d'objet tous les models qui ont été define via la connection
 
-/* // has many permet de préciser qu'un utilisateur peut avoir plusieurs articles
-// Cela va permettre de recuperer tous les articles d'un user en faisant User.articles
-User.hasMany(Article, { as: "articles" });
-// belongsTo va permettre de créer le lien entre Article et User
-// Dans Article, il va rajouter la colonne UserId
-Article.belongsTo(User);
+await connection.sync();
 
-Article.hasMany(Review, { as: "reviews" });
-Review.belongsTo(Article)
-
-User.hasMany(Review, { as: "reviews" });
-Review.belongsTo(User);
-
-Article.hasMany(ArticlePhoto, { as: "photos" })
-ArticlePhoto.belongsTo(Article); */
-
-
-await connection.sync()
-
-console.log('Synchro OK');
+console.log("Synchro OK");
 
 export { Contact }
