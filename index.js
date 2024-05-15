@@ -1,27 +1,47 @@
-import express from 'express'
-import { env } from './config.js'
-import cors from 'cors'
+import { Sequelize } from "sequelize";
+import contactModel from "./contact.model.js"
 
-// Connexion MySQL
-import './models/index.js'
+// Nouvelle connexion à la DB
+const connection = new Sequelize(
+    'coordonnées_contact', // Nom de la base de donnée
+    'root', // identifiant Mysql
+    '', // Mot de passe Mysql
+    {
+        host: 'localhost', // URL de mySQL
+        dialect: 'mysql'
+    }
+);
 
-// ROUTES
-import routerContact from './routes/contact.js'
+try {
+    await connection.authenticate();
+    console.log('Connection has been established successfully.');
+} catch (error) {
+    console.error('Unable to connect to the database:', error);
+}
 
-const app = express()
+contactModel(connection, Sequelize);
 
-// PORT
-const PORT = env.port || 8080
+const { Contact } = connection.models;
 
-// MIDDLEWARE
-app.use(express.json())
-app.use(cookieParser())
-app.use(cors())
+/* // has many permet de préciser qu'un utilisateur peut avoir plusieurs articles
+// Cela va permettre de recuperer tous les articles d'un user en faisant User.articles
+User.hasMany(Article, { as: "articles" });
+// belongsTo va permettre de créer le lien entre Article et User
+// Dans Article, il va rajouter la colonne UserId
+Article.belongsTo(User);
 
-// MIDDLEWARE TO ROUTE
-app.use("/contact", routerContact)
+Article.hasMany(Review, { as: "reviews" });
+Review.belongsTo(Article)
 
-// LISTEN
-app.listen(PORT, () => {
-  console.log(`Listening at http://localhost:${PORT}`);
-})
+User.hasMany(Review, { as: "reviews" });
+Review.belongsTo(User);
+
+Article.hasMany(ArticlePhoto, { as: "photos" })
+ArticlePhoto.belongsTo(Article); */
+
+
+await connection.sync()
+
+console.log('Synchro OK');
+
+export { Contact }
