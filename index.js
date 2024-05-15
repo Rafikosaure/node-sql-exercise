@@ -3,7 +3,7 @@ import contactModel from "./contact.model.js"
 
 // Nouvelle connexion à la DB
 const connection = new Sequelize(
-    'coordonnées_contact', // Nom de la base de donnée
+    'infos_contacts', // Nom de la base de donnée
     'root', // identifiant Mysql
     '', // Mot de passe Mysql
     {

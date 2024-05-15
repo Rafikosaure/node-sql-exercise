@@ -15,7 +15,6 @@ const PORT = env.port || 8080
 
 // MIDDLEWARE
 app.use(express.json())
-app.use(cookieParser())
 app.use(cors())
 
 // MIDDLEWARE TO ROUTE
