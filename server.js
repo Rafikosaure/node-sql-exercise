@@ -3,10 +3,10 @@ import { env } from './config.js'
 import cors from 'cors'
 
 // Connexion MySQL
-import './index.js'
+import './models/index.js'
 
 // ROUTES
-import routerContact from './contact.js'
+import routerContact from './routes/contact.js'
 
 const app = express()
 

@@ -4,7 +4,7 @@ export default (connection, DataTypes) => {
         {
             firstname: {
                 type: DataTypes.STRING,
-                allowNull: false,
+                allowNull: false
             },
             lastname: {
                 type: DataTypes.STRING,
